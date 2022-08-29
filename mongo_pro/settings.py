@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 
 import mongoengine
+import environ
+
+env=environ.Env()
+environ.Env.read_env()
 
 from pathlib import Path
 
@@ -22,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-m@(rj(-1kqs-aroq#jf(+cqhit)z8o&ohr8q#s6swfiytn!au_'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -80,9 +84,10 @@ WSGI_APPLICATION = 'mongo_pro.wsgi.application'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 # host='mongodb://YaduCholayil:YaduCholayil@cluster0.sxnhypo.mongodb.net/?retryWrites=true&w=majority'
 mongoengine.connect(
-    db='mongo_test',
-    host='mongodb+srv://YaduCholayil:YaduCholayil@cluster0.sxnhypo.mongodb.net/?retryWrites=true&w=majority',
+    db=env('DATABASE_NAME'),
+    host=env('HOST'),
 )
+print(env('DATABASE_NAME'), env('HOST'))
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators

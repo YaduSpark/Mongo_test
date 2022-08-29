@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+  db:
+    image: mongo
+    volumes: 
+      - mongodb:/data/db
+    ports:
+      - 27017:27017
+    env_file:
+      - mongo_pro/.env
+    container_name: mongo_test
+
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    links:
+      - db
+    depends_on: 
+      - db
+
+volumes:
+  mongodb:
